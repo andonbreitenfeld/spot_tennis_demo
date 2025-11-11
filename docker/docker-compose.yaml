@@ -1,0 +1,35 @@
+services:
+  nav2-demo:
+    # Build from your Dockerfile in the repo root
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cla-nav2:latest
+    container_name: nav2-demo
+
+    # GUI + ROS env
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      # Switch to Cyclone DDS
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      # Sets Correct URDF Model
+      - TURTLEBOT3_MODEL=waffle
+
+      # Force software rendering for OpenGL (fixes some GPU issues) (faster gazebo spinup)
+      # Uses CPU instead of GPU for rendering, slower but more hardware agnostic
+      - LIBGL_ALWAYS_SOFTWARE=1
+      - MESA_GL_VERSION_OVERRIDE=4.1
+      - MESA_GLSL_VERSION_OVERRIDE=410
+
+
+    # Mounts: X11 socket for GUI + local folder for saving maps
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./src:/workspace/src
+    
+    working_dir: /workspace/src
+
+    # Keep container interactive
+    tty: true
+    stdin_open: true

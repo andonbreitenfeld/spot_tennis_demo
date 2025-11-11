@@ -1,0 +1,127 @@
+[0.108s] colcon DEBUG Command line arguments: ['/usr/bin/colcon', 'list', '-p', '--base-paths', '/home/nrg-positron/ros2_ws/src/spot_tennis_demo', '--log-base', '/dev/null']
+[0.108s] colcon DEBUG Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='list', build_base='build', ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['/home/nrg-positron/ros2_ws/src/spot_tennis_demo', '--log-base', '/dev/null'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], topological_order=False, names_only=False, paths_only=True, topological_graph=False, topological_graph_dot=False, topological_graph_density=False, topological_graph_legend=False, topological_graph_dot_cluster=False, topological_graph_dot_include_skipped=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x738c113fd0c0>, verb_extension=<colcon_package_information.verb.list.ListVerb object at 0x738c115523e0>, main=<bound method ListVerb.main of <colcon_package_information.verb.list.ListVerb object at 0x738c115523e0>>)
+[0.289s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) check parameters
+[0.289s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) check parameters
+[0.289s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) check parameters
+[0.289s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) check parameters
+[0.289s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) discover
+[0.290s] colcon.colcon_core.package_discovery INFO Crawling recursively for packages in '/home/nrg-positron/ros2_ws/src/spot_tennis_demo', '/home/nrg-positron/ros2_ws/src/spot_tennis_demo/--log-base', '/dev/null'
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extensions ['ignore', 'ignore_ament_install']
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extension 'ignore'
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extension 'ignore_ament_install'
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extensions ['colcon_pkg']
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extension 'colcon_pkg'
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extensions ['colcon_meta']
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extension 'colcon_meta'
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extensions ['ros']
+[0.290s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extension 'ros'
+[0.324s] colcon.colcon_core.package_identification DEBUG Failed to parse potential ROS package manifest in'/home/nrg-positron/ros2_ws/src/spot_tennis_demo': Error(s) in package '/home/nrg-positron/ros2_ws/src/spot_tennis_demo/package.xml':
+The manifest contains invalid XML:
+no element found: line 1, column 0
+[0.324s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extensions ['cmake', 'python']
+[0.324s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extension 'cmake'
+[0.324s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extension 'python'
+[0.325s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extensions ['python_setup_py']
+[0.325s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo) by extension 'python_setup_py'
+[0.616s] colcon.colcon_core.package_identification ERROR Exception in package identification extension 'python_setup_py' in '/home/nrg-positron/ros2_ws/src/spot_tennis_demo': Command '['/usr/bin/python3', '-c', 'import sys;from contextlib import suppress;exec("with suppress(ImportError):    from setuptools.extern.packaging.specifiers    import SpecifierSet");exec("with suppress(ImportError):    from packaging.specifiers import SpecifierSet");from distutils.core import run_setup;dist = run_setup(    \'setup.py\', script_args=(\'--dry-run\',), stop_after=\'config\');skip_keys = (\'cmdclass\', \'distclass\', \'ext_modules\', \'metadata\');data = {    key: value for key, value in dist.__dict__.items()     if (        not key.startswith(\'_\') and         not callable(value) and         key not in skip_keys and         key not in dist.display_option_names    )};data[\'metadata\'] = {    k: v for k, v in dist.metadata.__dict__.items()     if k not in (\'license_files\', \'provides_extras\')};sys.stdout.buffer.write(repr(data).encode(\'utf-8\'))']' returned non-zero exit status 1.
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/colcon_core/package_identification/__init__.py", line 144, in _identify
+    retval = extension.identify(_reused_descriptor_instance)
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 48, in identify
+    config = get_setup_information(setup_py)
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 249, in get_setup_information
+    _setup_information_cache[hashable_env] = _get_setup_information(
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 296, in _get_setup_information
+    result = subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '-c', 'import sys;from contextlib import suppress;exec("with suppress(ImportError):    from setuptools.extern.packaging.specifiers    import SpecifierSet");exec("with suppress(ImportError):    from packaging.specifiers import SpecifierSet");from distutils.core import run_setup;dist = run_setup(    \'setup.py\', script_args=(\'--dry-run\',), stop_after=\'config\');skip_keys = (\'cmdclass\', \'distclass\', \'ext_modules\', \'metadata\');data = {    key: value for key, value in dist.__dict__.items()     if (        not key.startswith(\'_\') and         not callable(value) and         key not in skip_keys and         key not in dist.display_option_names    )};data[\'metadata\'] = {    k: v for k, v in dist.metadata.__dict__.items()     if k not in (\'license_files\', \'provides_extras\')};sys.stdout.buffer.write(repr(data).encode(\'utf-8\'))']' returned non-zero exit status 1.
+
+[0.616s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extensions ['ignore', 'ignore_ament_install']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extension 'ignore'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extension 'ignore_ament_install'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extensions ['colcon_pkg']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extension 'colcon_pkg'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extensions ['colcon_meta']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extension 'colcon_meta'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extensions ['ros']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extension 'ros'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extensions ['cmake', 'python']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extension 'cmake'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extension 'python'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extensions ['python_setup_py']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/config) by extension 'python_setup_py'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extensions ['ignore', 'ignore_ament_install']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extension 'ignore'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extension 'ignore_ament_install'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extensions ['colcon_pkg']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extension 'colcon_pkg'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extensions ['colcon_meta']
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extension 'colcon_meta'
+[0.617s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extensions ['ros']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extension 'ros'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extensions ['cmake', 'python']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extension 'cmake'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extension 'python'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extensions ['python_setup_py']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/docker) by extension 'python_setup_py'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extensions ['ignore', 'ignore_ament_install']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extension 'ignore'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extension 'ignore_ament_install'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extensions ['colcon_pkg']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extension 'colcon_pkg'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extensions ['colcon_meta']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extension 'colcon_meta'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extensions ['ros']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extension 'ros'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extensions ['cmake', 'python']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extension 'cmake'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extension 'python'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extensions ['python_setup_py']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/launch) by extension 'python_setup_py'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/log) by extensions ['ignore', 'ignore_ament_install']
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/log) by extension 'ignore'
+[0.618s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/log) ignored
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extensions ['ignore', 'ignore_ament_install']
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extension 'ignore'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extension 'ignore_ament_install'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extensions ['colcon_pkg']
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extension 'colcon_pkg'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extensions ['colcon_meta']
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extension 'colcon_meta'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extensions ['ros']
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extension 'ros'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extensions ['cmake', 'python']
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extension 'cmake'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extension 'python'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extensions ['python_setup_py']
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/maps) by extension 'python_setup_py'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extensions ['ignore', 'ignore_ament_install']
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extension 'ignore'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extension 'ignore_ament_install'
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extensions ['colcon_pkg']
+[0.619s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extension 'colcon_pkg'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extensions ['colcon_meta']
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extension 'colcon_meta'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extensions ['ros']
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extension 'ros'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extensions ['cmake', 'python']
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extension 'cmake'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extension 'python'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extensions ['python_setup_py']
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/models) by extension 'python_setup_py'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extensions ['ignore', 'ignore_ament_install']
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extension 'ignore'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extension 'ignore_ament_install'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extensions ['colcon_pkg']
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extension 'colcon_pkg'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extensions ['colcon_meta']
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extension 'colcon_meta'
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extensions ['ros']
+[0.620s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extension 'ros'
+[0.621s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extensions ['cmake', 'python']
+[0.621s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extension 'cmake'
+[0.621s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extension 'python'
+[0.621s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extensions ['python_setup_py']
+[0.621s] colcon.colcon_core.package_identification Level 1 _identify(/home/nrg-positron/ros2_ws/src/spot_tennis_demo/spot_tennis_demo) by extension 'python_setup_py'
+[0.621s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) using defaults
