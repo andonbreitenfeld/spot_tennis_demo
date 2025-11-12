@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>spot_tennis_demo</name>
+  <version>0.1.0</version>
+  <description>
+    Demo for Spot using Nav2 and YOLO detection — navigate and localize tennis balls.
+  </description>
+
+  <maintainer email="andonbreitenfeld@utexas.edu">Andon Breitenfeld</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <!-- Core ROS dependencies -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <!-- object_pose_3d.py dependencies -->
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>yolo_msgs</exec_depend>
+
+  <!-- Spot + YOLO -->
+  <exec_depend>spot_ros</exec_depend>
+  <exec_depend>yolo_bringup</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
