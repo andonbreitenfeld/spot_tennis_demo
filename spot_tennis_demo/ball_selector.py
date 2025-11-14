@@ -2,7 +2,7 @@ import math
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
-from yolo_msgs.msg import Detection3DArray
+from yolo_msgs.msg import DetectionArray
 
 class BallSelector(Node):
     def __init__(self):
@@ -10,7 +10,7 @@ class BallSelector(Node):
 
         # Input YOLO 3D detections
         self.sub = self.create_subscription(
-            Detection3DArray,
+            DetectionArray,
             '/yolo/detections_3d',
             self.detections_cb,
             10,
@@ -23,7 +23,7 @@ class BallSelector(Node):
             10,
         )
 
-    def detections_cb(self, msg: Detection3DArray):
+    def detections_cb(self, msg: DetectionArray):
         best_det = None
         best_dist = None
 
