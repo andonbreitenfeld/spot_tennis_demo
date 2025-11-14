@@ -27,7 +27,7 @@ class BallSelector(Node):
             10,
         )
         
-        self.target_frame = 'map'
+        self.target_frame = 'spot_nav/map'
 
     def detections_cb(self, msg: DetectionArray):
         best_det = None
