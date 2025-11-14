@@ -55,6 +55,7 @@ class BallSelector(Node):
                 self.target_frame,
                 timeout=Duration(seconds=0.1),
             )
+        
         except Exception as e:
             self.get_logger().warn(
                 f"TF {pose_base.header.frame_id} -> {self.target_frame} failed: {e}"
@@ -63,7 +64,7 @@ class BallSelector(Node):
 
         self.pub.publish(pose_map)
         self.get_logger().info(
-            f"[BALL] closest≈{best_dist:.2f}m (in {pose_base.header.frame_id}) | "
+            f"[BALL] closest={best_dist:.2f}m (in {pose_base.header.frame_id}) | "
             f"map: x={pose_map.pose.position.x:.2f}, "
             f"y={pose_map.pose.position.y:.2f}, "
             f"z={pose_map.pose.position.z:.2f}"
