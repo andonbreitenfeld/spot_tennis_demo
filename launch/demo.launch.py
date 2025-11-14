@@ -7,6 +7,7 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
+    # Spot bringup (matches your CLI command)
     spot_bringup = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -18,6 +19,10 @@ def generate_launch_description():
         launch_arguments={
             'hostname': '192.168.50.3',
             'controller_configuration': 'Dualsense5',
+            'kinematic_model': 'body_assist',
+            'dock_id': '520',
+            'publish_images': 'True',
+            'image_config': '/home/abreitenfeld/project_ws/src/spot_ros/spot_driver/config/publish_all_images.yaml',
         }.items(),
     )
 
@@ -60,21 +65,20 @@ def generate_launch_description():
             'model': PathJoinSubstitution([
                 FindPackageShare('spot_tennis_demo'),
                 'models',
-                'yolo_tennis.pt',
+                'tennis-seg-high.pt',
             ]),
-
-            'input_image_topic': '/spot_image_server/rgb/frontleft/image',
-            'input_depth_topic': '/spot_image_server/depth/frontleft/image',
-            'input_depth_info_topic': '/spot_image_server/depth/frontleft/camera_info',
+            'input_image_topic': '/spot_image_server/rgb/hand_rgb/image',
+            'input_depth_topic': '/spot_image_server/depth/hand_rgb/image',
+            'input_depth_info_topic': '/spot_image_server/depth/hand_rgb/camera_info',
             'use_3d': 'True',
+            'threshold': '0.30',
         }.items(),
     )
 
-    # YOLO detections to TF frames
-    object_pose_3d = Node(
+    ball_selector = Node(
         package='spot_tennis_demo',
-        executable='object_pose_3d',
-        name='object_pose_3d',
+        executable='ball_selector',
+        name='ball_selector',
         output='screen',
     )
 
@@ -97,6 +101,6 @@ def generate_launch_description():
         amcl,
         nav2,
         yolo_bringup,
-        object_pose_3d,
+        ball_selector,
         bt_executor,
     ])
