@@ -27,7 +27,7 @@ class BallSelector(Node):
             10,
         )
         
-        self.target_frame = 'map'
+        self.target_frame = 'odom'
 
     def detections_cb(self, msg: DetectionArray):
         best_det = None

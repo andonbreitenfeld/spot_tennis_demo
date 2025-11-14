@@ -71,6 +71,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         spot_bringup,
+        amcl,
         yolo_bringup,
         ball_selector,
         bt_executor,
