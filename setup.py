@@ -25,7 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             # add more scripts later
-            'object_pose_3d = spot_tennis_demo.object_pose_3d:main',
+            'ball_selector = spot_tennis_demo.ball_selector:main',
             'bt_executor   = spot_tennis_demo.bt_executor:main',
         ],
     },
