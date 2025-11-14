@@ -3,10 +3,15 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
 from yolo_msgs.msg import DetectionArray
+from tf2_ros import Buffer, TransformListener
+from rclpy.duration import Duration
 
 class BallSelector(Node):
     def __init__(self):
         super().__init__('ball_selector')
+
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
 
         # Input YOLO 3D detections
         self.sub = self.create_subscription(
@@ -22,6 +27,8 @@ class BallSelector(Node):
             '/tennis_ball_pose',
             10,
         )
+        
+        self.target_frame = 'map'
 
     def detections_cb(self, msg: DetectionArray):
         best_det = None
@@ -38,17 +45,30 @@ class BallSelector(Node):
         if best_det is None:
             return
 
-        ball_pose = PoseStamped()
-        ball_pose.header = msg.header
-        ball_pose.pose = best_det.bbox3d.center
+        # Pose - Camera Frame
+        pose_cam = PoseStamped()
+        pose_cam.header = msg.header
+        pose_cam.pose = best_det.bbox3d.center
 
-        self.pub.publish(ball_pose)
+        # Camera Frame -> Map Frame
+        try:
+            pose_map = self.tf_buffer.transform(
+                pose_cam,
+                self.target_frame,
+                timeout=Duration(seconds=0.1),
+            )
+        except Exception as e:
+            self.get_logger().warn(
+                f"TF {pose_cam.header.frame_id} -> {self.target_frame} failed: {e}"
+            )
+            return
 
+        self.pub.publish(pose_map)
         self.get_logger().info(
-            f"[SELECT] dist={best_dist:.2f}m | "
-            f"x={ball_pose.pose.position.x:.2f}, "
-            f"y={ball_pose.pose.position.y:.2f}, "
-            f"z={ball_pose.pose.position.z:.2f}"
+            f"[BALL] closest≈{best_dist:.2f}m | "
+            f"map: x={pose_map.pose.position.x:.2f}, "
+            f"y={pose_map.pose.position.y:.2f}, "
+            f"z={pose_map.pose.position.z:.2f}"
         )
 
 def main(args=None):
