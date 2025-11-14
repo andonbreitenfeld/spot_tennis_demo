@@ -5,6 +5,7 @@ from geometry_msgs.msg import PoseStamped
 from yolo_msgs.msg import DetectionArray
 from tf2_ros import Buffer, TransformListener
 from rclpy.duration import Duration
+import tf2_geometry_msgs
 
 class BallSelector(Node):
     def __init__(self):
@@ -43,33 +44,31 @@ class BallSelector(Node):
         if best_det is None:
             return
 
-        pose_base = PoseStamped()
-        pose_base.header.stamp = msg.header.stamp
-        pose_base.header.frame_id = best_det.bbox3d.frame_id
-        pose_base.pose = best_det.bbox3d.center
+        pose_cam = PoseStamped()
+        pose_cam.header = msg.header
+        pose_cam.header.frame_id = best_det.bbox3d.frame_id
+        pose_cam.pose = best_det.bbox3d.center
 
         # Base Frame -> Map Frame
         try:
             pose_map = self.tf_buffer.transform(
-                pose_base,
+                pose_cam,
                 self.target_frame,
                 timeout=Duration(seconds=0.1),
             )
-        
-        except Exception as e:
+        except Exception as e:  # CHANGED — catch generic Exception (TransformException missing in Python)
             self.get_logger().warn(
-                f"TF {pose_base.header.frame_id} -> {self.target_frame} failed: {e}"
+                f"TF {pose_cam.header.frame_id} -> {self.target_frame} failed: {e}"
             )
             return
 
         self.pub.publish(pose_map)
         self.get_logger().info(
-            f"[BALL] closest={best_dist:.2f}m (in {pose_base.header.frame_id}) | "
+            f"[BALL] closest={best_dist:.2f}m (frame={pose_cam.header.frame_id}) | "
             f"map: x={pose_map.pose.position.x:.2f}, "
             f"y={pose_map.pose.position.y:.2f}, "
             f"z={pose_map.pose.position.z:.2f}"
         )
-
 def main(args=None):
     rclpy.init(args=args)
     node = BallSelector()
