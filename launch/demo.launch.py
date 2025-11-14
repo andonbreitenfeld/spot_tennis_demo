@@ -69,9 +69,23 @@ def generate_launch_description():
         output='screen',
     )
 
+    amcl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare('spot_navigation'),
+                'launch',
+                'amcl.launch.py',
+            ])
+        ),
+        launch_arguments={
+            'map': '/home/abreitenfeld/project_ws/src/spot_tennis_demo/maps/ahg_ars_elm.yaml',
+        }.items(),
+    )
+
     return LaunchDescription([
         spot_bringup,
         yolo_bringup,
         ball_selector,
         bt_executor,
+        amcl,
     ])
