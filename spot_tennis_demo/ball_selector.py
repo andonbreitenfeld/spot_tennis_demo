@@ -13,7 +13,6 @@ class BallSelector(Node):
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
 
-        # Input YOLO 3D detections
         self.sub = self.create_subscription(
             DetectionArray,
             '/yolo/detections_3d',
@@ -21,7 +20,6 @@ class BallSelector(Node):
             10,
         )
 
-        # Output the single best tennis ball
         self.pub = self.create_publisher(
             PoseStamped,
             '/tennis_ball_pose',
@@ -45,27 +43,27 @@ class BallSelector(Node):
         if best_det is None:
             return
 
-        # Pose - Camera Frame
-        pose_cam = PoseStamped()
-        pose_cam.header = msg.header
-        pose_cam.pose = best_det.bbox3d.center
+        pose_base = PoseStamped()
+        pose_base.header.stamp = msg.header.stamp
+        pose_base.header.frame_id = best_det.bbox3d.frame_id
+        pose_base.pose = best_det.bbox3d.center
 
-        # Camera Frame -> Map Frame
+        # Base Frame -> Map Frame
         try:
             pose_map = self.tf_buffer.transform(
-                pose_cam,
+                pose_base,
                 self.target_frame,
                 timeout=Duration(seconds=0.1),
             )
         except Exception as e:
             self.get_logger().warn(
-                f"TF {pose_cam.header.frame_id} -> {self.target_frame} failed: {e}"
+                f"TF {pose_base.header.frame_id} -> {self.target_frame} failed: {e}"
             )
             return
 
         self.pub.publish(pose_map)
         self.get_logger().info(
-            f"[BALL] closest≈{best_dist:.2f}m | "
+            f"[BALL] closest≈{best_dist:.2f}m (in {pose_base.header.frame_id}) | "
             f"map: x={pose_map.pose.position.x:.2f}, "
             f"y={pose_map.pose.position.y:.2f}, "
             f"z={pose_map.pose.position.z:.2f}"
