@@ -25,23 +25,6 @@ def generate_launch_description():
         }.items(),
     )
 
-    amcl = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                FindPackageShare('spot_navigation'),
-                'launch',
-                'amcl.launch.py',
-            ])
-        ),
-        launch_arguments={
-            'map': PathJoinSubstitution([
-                FindPackageShare('spot_tennis_demo'),
-                'maps',
-                'ahg_ars_elm.yaml',
-            ])
-        }.items(),
-    )
-
     yolo_bringup = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -88,7 +71,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         spot_bringup,
-        amcl,
         yolo_bringup,
         ball_selector,
         bt_executor,
