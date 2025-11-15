@@ -1,10 +1,13 @@
+#!/usr/bin/env python3
 import math
+from collections import deque
 import rclpy
 from rclpy.node import Node
+from rclpy.duration import Duration
 from geometry_msgs.msg import PoseStamped
+from std_msgs.msg import Bool
 from yolo_msgs.msg import DetectionArray
 from tf2_ros import Buffer, TransformListener
-from rclpy.duration import Duration
 import tf2_geometry_msgs
 
 class BallSelector(Node):
@@ -21,54 +24,109 @@ class BallSelector(Node):
             10,
         )
 
-        self.pub = self.create_publisher(
+        self.pub_stable_pose = self.create_publisher(
             PoseStamped,
-            '/tennis_ball_pose',
+            '/ball_stable_pose',
             10,
         )
-        
+
+        self.pub_detected = self.create_publisher(
+            Bool,
+            '/ball_detected',
+            10,
+        )
+
         self.target_frame = 'spot_nav/map'
 
+        self.window_size = 10   # Last 10 Positions for Stability Check
+        self.stability_threshold = 0.10   # (10 cm)
+        self.ball_window = deque(maxlen=self.window_size)
+
     def detections_cb(self, msg: DetectionArray):
+        # No Detections
+        if not msg.detections:
+            self.ball_window.clear()    # clear queue
+            self.pub_detected.publish(Bool(data=False))
+            return
+
         best_det = None
         best_dist = None
 
+        # Select Closest Ball
         for det in msg.detections:
             p = det.bbox3d.center.position
-            dist = math.sqrt(p.x ** 2 + p.y ** 2)
-
+            dist = math.sqrt(p.x**2 + p.y**2)
             if best_det is None or dist < best_dist:
                 best_det = det
                 best_dist = dist
 
-        if best_det is None:
-            return
-
-        pose_cam = PoseStamped()
-        pose_cam.header = msg.header
-        pose_cam.header.frame_id = best_det.bbox3d.frame_id
-        pose_cam.pose = best_det.bbox3d.center
+        pose_robot = PoseStamped()
+        pose_robot.header = msg.header
+        pose_robot.header.frame_id = best_det.bbox3d.frame_id
+        pose_robot.pose = best_det.bbox3d.center
 
         # Base Frame -> Map Frame
         try:
             pose_map = self.tf_buffer.transform(
-                pose_cam,
+                pose_robot,
                 self.target_frame,
-                timeout=Duration(seconds=0.1),
+                timeout=Duration(seconds=0.1)
             )
+
         except Exception as e:
+            self.ball_window.clear()
+            self.pub_detected.publish(Bool(data=False))
             self.get_logger().warn(
-                f"TF {pose_cam.header.frame_id} -> {self.target_frame} failed: {e}"
+            f"[TF ERROR] Could not transform {pose_robot.header.frame_id} -> {self.target_frame}: {e}"
             )
             return
 
-        self.pub.publish(pose_map)
-        self.get_logger().info(
-            f"[BALL] closest={best_dist:.2f}m (frame={pose_cam.header.frame_id}) | "
-            f"map: x={pose_map.pose.position.x:.2f}, "
-            f"y={pose_map.pose.position.y:.2f}, "
-            f"z={pose_map.pose.position.z:.2f}"
+        x = pose_map.pose.position.x
+        y = pose_map.pose.position.y
+        z = pose_map.pose.position.z
+
+        # Store Position in Queue
+        self.ball_window.append((x, y, z))
+
+        # Not Enough Stored Frames
+        if len(self.ball_window) < self.window_size:
+            self.pub_detected.publish(Bool(data=False))
+            return
+
+        # Average Position
+        avg_x = sum(px for px, _, _ in self.ball_window) / len(self.ball_window)
+        avg_y = sum(py for _, py, _ in self.ball_window) / len(self.ball_window)
+        avg_z = sum(pz for _, _, pz in self.ball_window) / len(self.ball_window)
+
+        # Deviation from Average
+        max_dev = max(
+            math.sqrt((px - avg_x)**2 + (py - avg_y)**2 + (pz - avg_z)**2)
+            for px, py, pz in self.ball_window
         )
+
+        # Unstable Ball
+        if max_dev > self.stability_threshold:
+            self.pub_detected.publish(Bool(data=False))
+            self.get_logger().info(
+            f"[UNSTABLE] Ball moving too much (max_dev={max_dev:.2f} > {self.stability_threshold})"
+            )
+            return
+
+        # Stable Ball
+        stable = PoseStamped()
+        stable.header = pose_map.header
+        stable.pose = pose_map.pose
+        stable.pose.position.x = avg_x
+        stable.pose.position.y = avg_y
+        stable.pose.position.z = avg_z
+
+        self.pub_stable_pose.publish(stable)
+        self.pub_detected.publish(Bool(data=True))
+
+        self.get_logger().info(
+            f"Ball Detected: x={avg_x:.2f}, y={avg_y:.2f}, z={avg_z:.2f}"
+        )
+
 def main(args=None):
     rclpy.init(args=args)
     node = BallSelector()
