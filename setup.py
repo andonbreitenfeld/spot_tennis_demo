@@ -25,7 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'ball_selector = spot_tennis_demo.ball_selector:main',
-            'ball_goal_commander = spot_tennis_demo.ball_goal_commander:main',
+            'nav_manager = spot_tennis_demo.nav_manager:main',
             'bt_executor   = spot_tennis_demo.bt_executor:main',
         ],
     },
