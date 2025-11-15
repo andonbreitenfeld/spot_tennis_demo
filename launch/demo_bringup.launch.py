@@ -76,20 +76,9 @@ def generate_launch_description():
         }.items(),
     )
 
-    nav2_bringup = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                FindPackageShare('spot_navigation'),
-                'launch',
-                'bringup_launch.py',
-            ])
-        )
-    )
-
     return LaunchDescription([
         spot_bringup,
         yolo_bringup,
         ball_selector,
         amcl,
-        nav2_bringup,
     ])
