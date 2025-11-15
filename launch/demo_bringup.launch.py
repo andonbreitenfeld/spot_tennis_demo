@@ -59,20 +59,6 @@ def generate_launch_description():
         output='screen',
     )
 
-    bt_executor = Node(
-        package='spot_tennis_demo',
-        executable='bt_executor',
-        name='bt_executor',
-        parameters=[{
-            'bt_xml_file': PathJoinSubstitution([
-                FindPackageShare('spot_tennis_demo'),
-                'config',
-                'bt_tree.xml',
-            ]),
-        }],
-        output='screen',
-    )
-
     amcl = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -90,10 +76,28 @@ def generate_launch_description():
         }.items(),
     )
 
+    nav2_bringup = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare('spot_navigation'),
+                'launch',
+                'bringup_launch.py',
+            ])
+        ),
+        launch_arguments={
+            'map': PathJoinSubstitution([
+                FindPackageShare('spot_tennis_demo'),
+                'maps',
+                'ahg_ars_elm.yaml',
+            ]),
+            'use_sim_time': 'False',
+        }.items(),
+    )
+
     return LaunchDescription([
         spot_bringup,
         yolo_bringup,
         ball_selector,
-        bt_executor,
         amcl,
+        nav2_bringup,
     ])
