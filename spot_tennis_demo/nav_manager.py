@@ -41,7 +41,7 @@ class NavManager(Node):
 
         self.target_frame = 'spot_nav/map'
         self.base_frame = 'base_link'
-        self.standoff = 0.30  # 1 ft
+        self.standoff = 1.5  # 5 ft
 
     def ball_cb(self, msg):
         self.ball_pose = msg
