@@ -21,7 +21,11 @@ def generate_launch_description():
             'kinematic_model': 'body_assist',
             'dock_id': '520',
             'publish_images': 'True',
-            'image_config': '/home/abreitenfeld/project_ws/src/spot_ros/spot_driver/config/publish_all_images.yaml',
+            'image_config': PathJoinSubstitution([
+                FindPackageShare('spot_driver'),
+                'config',
+                'publish_all_images.yaml',
+            ]),
         }.items(),
     )
 
@@ -43,6 +47,7 @@ def generate_launch_description():
             'input_depth_topic': '/spot_image_server/depth/hand_rgb/image',
             'input_depth_info_topic': '/spot_image_server/depth/hand_rgb/camera_info',
             'use_3d': 'True',
+            'device': 'cpu',
             'threshold': '0.10',
         }.items(),
     )
@@ -77,7 +82,11 @@ def generate_launch_description():
             ])
         ),
         launch_arguments={
-            'map': '/home/abreitenfeld/project_ws/src/spot_tennis_demo/maps/ahg_ars_elm.yaml',
+            'map': PathJoinSubstitution([
+                FindPackageShare('spot_tennis_demo'),
+                'maps',
+                'ahg_ars_elm.yaml',
+            ]),
         }.items(),
     )
 

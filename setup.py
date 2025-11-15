@@ -20,12 +20,12 @@ setup(
     zip_safe=True,
     maintainer='Andon Breitenfeld',
     maintainer_email='andonbreitenfeld@utexas.edu',
-    description='Demo for Spot using Nav2 and YOLO detection — navigate and localize tennis balls.',
+    description='Demo for Spot to detect, navigate to, and manipulate tennis balls.',
     license='MIT',
     entry_points={
         'console_scripts': [
-            # add more scripts later
             'ball_selector = spot_tennis_demo.ball_selector:main',
+            'ball_goal_commander = spot_tennis_demo.ball_goal_commander:main',
             'bt_executor   = spot_tennis_demo.bt_executor:main',
         ],
     },
