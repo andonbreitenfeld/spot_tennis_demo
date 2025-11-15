@@ -43,7 +43,6 @@ def generate_launch_description():
             'input_depth_topic': '/spot_image_server/depth/hand_rgb/image',
             'input_depth_info_topic': '/spot_image_server/depth/hand_rgb/camera_info',
             'use_3d': 'True',
-            'device': 'cpu',
             'threshold': '0.10',
         }.items(),
     )
