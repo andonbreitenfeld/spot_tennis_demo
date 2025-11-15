@@ -27,7 +27,7 @@ class BallSelector(Node):
             10,
         )
         
-        self.target_frame = 'odom'
+        self.target_frame = 'spot_nav/map'
 
     def detections_cb(self, msg: DetectionArray):
         best_det = None
@@ -56,7 +56,7 @@ class BallSelector(Node):
                 self.target_frame,
                 timeout=Duration(seconds=0.1),
             )
-        except Exception as e:  # CHANGED — catch generic Exception (TransformException missing in Python)
+        except Exception as e:
             self.get_logger().warn(
                 f"TF {pose_cam.header.frame_id} -> {self.target_frame} failed: {e}"
             )
