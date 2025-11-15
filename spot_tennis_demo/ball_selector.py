@@ -39,7 +39,7 @@ class BallSelector(Node):
         self.target_frame = 'spot_nav/map'
 
         self.window_size = 5   # Last 10 Positions for Stability Check
-        self.stability_threshold = 0.5   # (50 cm)
+        self.stability_threshold = 1   # (1 m)
         self.ball_window = deque(maxlen=self.window_size)
 
     def detections_cb(self, msg: DetectionArray):
@@ -55,7 +55,7 @@ class BallSelector(Node):
         # Select Closest Ball
         for det in msg.detections:
             p = det.bbox3d.center.position
-            dist = math.sqrt(p.x**2 + p.y**2)
+            dist = math.hypot(p.x, p.y)
             if best_det is None or dist < best_dist:
                 best_det = det
                 best_dist = dist
@@ -65,7 +65,7 @@ class BallSelector(Node):
         pose_robot.header.frame_id = best_det.bbox3d.frame_id
         pose_robot.pose = best_det.bbox3d.center
 
-        # Base Frame -> Map Frame
+        # Ball Transform: Base Frame -> Map Frame
         try:
             pose_map = self.tf_buffer.transform(
                 pose_robot,

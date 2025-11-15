@@ -36,7 +36,7 @@ class NavManager(Node):
         self.nav_client = ActionClient(
             self,
             NavigateToPose,
-            'navigate_to_pose',
+            '/spot_nav/navigate_to_pose',
         )
 
         self.target_frame = 'spot_nav/map'
