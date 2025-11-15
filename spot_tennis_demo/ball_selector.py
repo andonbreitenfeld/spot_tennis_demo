@@ -6,7 +6,7 @@ from rclpy.node import Node
 from rclpy.duration import Duration
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Bool
-from yolo_msgs.msg import DetectionArray
+from yolo_msgs.msg import DetectionArray # type: ignore
 from tf2_ros import Buffer, TransformListener
 import tf2_geometry_msgs
 
@@ -39,7 +39,7 @@ class BallSelector(Node):
         self.target_frame = 'spot_nav/map'
 
         self.window_size = 10   # Last 10 Positions for Stability Check
-        self.stability_threshold = 0.10   # (10 cm)
+        self.stability_threshold = 0.5   # (50 cm)
         self.ball_window = deque(maxlen=self.window_size)
 
     def detections_cb(self, msg: DetectionArray):
