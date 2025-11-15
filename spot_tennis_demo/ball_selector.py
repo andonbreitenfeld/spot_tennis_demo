@@ -91,6 +91,9 @@ class BallSelector(Node):
         # Not Enough Stored Frames
         if len(self.ball_window) < self.window_size:
             self.pub_detected.publish(Bool(data=False))
+            self.get_logger().warn(
+            f"[FRAME ERROR] Only {len(self.ball_window)} frames stored"
+            )
             return
 
         # Average Position
