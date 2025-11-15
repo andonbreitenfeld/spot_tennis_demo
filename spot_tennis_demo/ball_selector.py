@@ -38,7 +38,7 @@ class BallSelector(Node):
 
         self.target_frame = 'spot_nav/map'
 
-        self.window_size = 10   # Last 10 Positions for Stability Check
+        self.window_size = 5   # Last 10 Positions for Stability Check
         self.stability_threshold = 0.5   # (50 cm)
         self.ball_window = deque(maxlen=self.window_size)
 
