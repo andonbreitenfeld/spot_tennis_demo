@@ -83,15 +83,7 @@ def generate_launch_description():
                 'launch',
                 'bringup_launch.py',
             ])
-        ),
-        launch_arguments={
-            'map': PathJoinSubstitution([
-                FindPackageShare('spot_tennis_demo'),
-                'maps',
-                'ahg_ars_elm.yaml',
-            ]),
-            'use_sim_time': 'False',
-        }.items(),
+        )
     )
 
     return LaunchDescription([
