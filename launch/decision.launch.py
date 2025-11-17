@@ -1,28 +1,19 @@
 from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    apriltag_config = PathJoinSubstitution([
-        FindPackageShare('spot_tennis_demo'),
-        'config',
-        'apriltag_settings.yaml'
-    ])
-    
-    apriltag_node = Node(
-        package='apriltag_ros',
-        executable='apriltag_node',
-        name='apriltag',
-        parameters=[
-            {'use_sim_time': False},
-            apriltag_config
-        ],
-        remappings=[
-            ('image_rect', '/spot_image_server/rgb/hand_rgb/image'),
-            ('camera_info', '/spot_image_server/rgb/hand_rgb/camera_info'),
-        ],
-        emulate_tty=True,
+    spot_apriltag = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare('spot_apriltag'),
+                'launch',
+                'spot_apriltag.launch.py'
+            ])
+        )
     )
     
     ball_selector = Node(
@@ -47,7 +38,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        apriltag_node,
+        spot_apriltag,
         ball_selector,
         nav_manager,
         bin_detector,
