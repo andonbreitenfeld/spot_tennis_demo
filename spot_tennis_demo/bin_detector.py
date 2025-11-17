@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import rclpy
+import rclpy.time
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
 from apriltag_msgs.msg import AprilTagDetectionArray
@@ -41,17 +42,21 @@ class BinDetector(Node):
             return
         
         try:
-            # Detection already has pose in camera frame
-            pose_camera = PoseStamped()
-            pose_camera.header = msg.header
-            pose_camera.pose = bin_detection.pose.pose.pose
-            
-            # Transform to map frame
-            pose_map = self.tf_buffer.transform(
-                pose_camera,
+            # Use TF to get bin pose in map frame
+            transform = self.tf_buffer.lookup_transform(
                 'spot_nav/map',
+                'bin_tag_link',
+                rclpy.time.Time(),
                 timeout=Duration(seconds=0.1)
             )
+            
+            pose_map = PoseStamped()
+            pose_map.header.stamp = self.get_clock().now().to_msg()
+            pose_map.header.frame_id = 'spot_nav/map'
+            pose_map.pose.position.x = transform.transform.translation.x
+            pose_map.pose.position.y = transform.transform.translation.y
+            pose_map.pose.position.z = transform.transform.translation.z
+            pose_map.pose.orientation = transform.transform.rotation
             
             self.pub.publish(pose_map)
             self.get_logger().info(
