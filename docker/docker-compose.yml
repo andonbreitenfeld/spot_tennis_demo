@@ -1,0 +1,42 @@
+services:
+  yolo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ROS_DISTRO: humble
+    image: yolo_spot:humble
+    container_name: yolo_spot
+    runtime: nvidia
+    network_mode: host
+    ipc: host
+    pid: host
+    stdin_open: true
+    tty: true
+    
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONEDDS_URI=/cyclonedds.xml
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    
+    volumes:
+      - ~/project_ws:/workspace
+      - ${CYCLONEDDS_URI:-/dev/null}:/cyclonedds.xml
+      - ~/.cache/ultralytics:/root/.cache/ultralytics
+    
+    command:
+      - ros2
+      - launch
+      - yolo_bringup
+      - yolo.launch.py
+      - model:=/workspace/src/spot_tennis_demo/models/tennis-seg-high.pt
+      - input_image_topic:=/spot_image_server/rgb/hand_rgb/image
+      - input_depth_topic:=/spot_image_server/depth/hand_rgb/image
+      - input_depth_info_topic:=/spot_image_server/depth/hand_rgb/camera_info
+      - use_3d:=True
+      - device:=cuda:0
+      - threshold:=0.5
+      - imgsz:=640
+      - half:=True
