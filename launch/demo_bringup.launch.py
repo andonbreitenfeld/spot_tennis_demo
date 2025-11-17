@@ -3,8 +3,6 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
-from launch_ros.actions import Node
-
 
 def generate_launch_description():
     spot_bringup = IncludeLaunchDescription(
@@ -29,13 +27,6 @@ def generate_launch_description():
         }.items(),
     )
 
-    ball_selector = Node(
-        package='spot_tennis_demo',
-        executable='ball_selector',
-        name='ball_selector',
-        output='screen',
-    )
-
     amcl = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -55,6 +46,5 @@ def generate_launch_description():
 
     return LaunchDescription([
         spot_bringup,
-        ball_selector,
         amcl,
     ])
