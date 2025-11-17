@@ -1,0 +1,23 @@
+apriltag_ros:
+  ros__parameters:
+    # AprilTag detector settings
+    image_transport: raw
+    family: tagStandard52h13
+    size: 0.10
+    max_hamming: 0
+    
+    # Tag-specific settings
+    tag:
+      standalone_tags:
+        - id: 0
+          size: 0.10
+          name: "bin_tag"
+    
+    # Detection settings
+    detector:
+      threads: 4
+      decimate: 2.0
+      blur: 0.0
+      refine: true
+      sharpening: 0.25
+      debug: false
