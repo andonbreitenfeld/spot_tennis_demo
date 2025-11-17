@@ -13,7 +13,14 @@ def generate_launch_description():
                 'launch',
                 'spot_apriltag.launch.py'
             ])
-        )
+        ),
+        launch_arguments={
+            'config': PathJoinSubstitution([
+                FindPackageShare('spot_tennis_demo'),
+                'config',
+                'spot_apriltag.yaml'
+            ])
+        }.items()
     )
     
     ball_selector = Node(

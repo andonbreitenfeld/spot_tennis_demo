@@ -1,17 +1,15 @@
 /**:
   ros__parameters:
     image_transport: raw
-    family: tagStandard52h13
+    family: 'Standard52h13'
     size: 0.10
-    profile: false
-    max_hamming: 0
+    z_up: false
+    max_hamming: 2
     detector:
       threads: 4
       decimate: 2.0
       blur: 0.0
-      refine: true
       sharpening: 0.25
-      debug: false
     tag:
       ids: [0]
       frames: [bin_tag_link]
