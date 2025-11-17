@@ -10,17 +10,17 @@ def generate_launch_description():
         'spot_apriltag.yaml'
     ])
     
-    apriltag_hand = Node(
+    apriltag_frontleft = Node(
         package='apriltag_ros',
         executable='apriltag_node',
-        name='apriltag_node_hand',
+        name='apriltag_node_frontleft',
         output='screen',
         remappings=[
-            ('image_rect', '/spot_image_server/rgb/hand_rgb/image'),
-            ('camera_info', '/spot_image_server/rgb/hand_rgb/camera_info'),
+            ('image_rect', '/spot_image_server/rgb/frontleft/image'),
+            ('camera_info', '/spot_image_server/rgb/frontleft/camera_info'),
             ('detections', '/apriltag/detections'),
         ],
         parameters=[config_file]
     )
     
-    return LaunchDescription([apriltag_hand])
+    return LaunchDescription([apriltag_frontleft])

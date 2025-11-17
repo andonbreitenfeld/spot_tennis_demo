@@ -22,7 +22,7 @@ def generate_launch_description():
             'image_config': PathJoinSubstitution([
                 FindPackageShare('spot_tennis_demo'),
                 'config',
-                'hand_cams.yaml',
+                'demo_cams.yaml',
             ]),
         }.items(),
     )
