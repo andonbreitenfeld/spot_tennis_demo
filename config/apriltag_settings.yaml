@@ -5,10 +5,9 @@ apriltag_ros:
     size: 0.10
     max_hamming: 0
     
-    tag:
-      standalone_tags:
-        - id: 0
-          size: 0.10
+    standalone_tags:
+      - id: 0
+        size: 0.10
     
     detector:
       threads: 4

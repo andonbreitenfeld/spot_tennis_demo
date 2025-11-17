@@ -17,7 +17,7 @@ def generate_launch_description():
             PathJoinSubstitution([
                 FindPackageShare('spot_tennis_demo'),
                 'config',
-                'apriltag.yaml'
+                'apriltag_settings.yaml'
             ])
         ]
     )
