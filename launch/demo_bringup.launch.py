@@ -22,33 +22,10 @@ def generate_launch_description():
             'dock_id': '520',
             'publish_images': 'True',
             'image_config': PathJoinSubstitution([
-                FindPackageShare('spot_driver'),
-                'config',
-                'publish_all_images.yaml',
-            ]),
-        }.items(),
-    )
-
-    yolo_bringup = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                FindPackageShare('yolo_bringup'),
-                'launch',
-                'yolo.launch.py',
-            ])
-        ),
-        launch_arguments={
-            'model': PathJoinSubstitution([
                 FindPackageShare('spot_tennis_demo'),
-                'models',
-                'tennis-seg-high.pt',
+                'config',
+                'hand_camera_only.yaml',
             ]),
-            'input_image_topic': '/spot_image_server/rgb/hand_rgb/image',
-            'input_depth_topic': '/spot_image_server/depth/hand_rgb/image',
-            'input_depth_info_topic': '/spot_image_server/depth/hand_rgb/camera_info',
-            'use_3d': 'True',
-            'device': 'cpu',
-            'threshold': '0.10',
         }.items(),
     )
 
@@ -78,7 +55,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         spot_bringup,
-        yolo_bringup,
         ball_selector,
         amcl,
     ])

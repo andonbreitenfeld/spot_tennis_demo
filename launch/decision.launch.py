@@ -12,6 +12,5 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-
         nav_manager,
     ])
