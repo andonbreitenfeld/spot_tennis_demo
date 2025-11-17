@@ -6,21 +6,14 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    spot_apriltag = IncludeLaunchDescription(
+    hand_apriltag = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
-                FindPackageShare('spot_apriltag'),
-                'launch',
-                'spot_apriltag.launch.py'
-            ])
-        ),
-        launch_arguments={
-            'config': PathJoinSubstitution([
                 FindPackageShare('spot_tennis_demo'),
-                'config',
-                'spot_apriltag.yaml'
+                'launch',
+                'hand_apriltag.launch.py'
             ])
-        }.items()
+        )
     )
     
     ball_selector = Node(
@@ -45,7 +38,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        spot_apriltag,
+        hand_apriltag,
         ball_selector,
         nav_manager,
         bin_detector,
