@@ -4,22 +4,25 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    # AprilTag detector (hand camera)
+    apriltag_config = PathJoinSubstitution([
+        FindPackageShare('spot_tennis_demo'),
+        'config',
+        'apriltag_settings.yaml'
+    ])
+    
     apriltag_node = Node(
         package='apriltag_ros',
         executable='apriltag_node',
         name='apriltag',
+        parameters=[
+            {'use_sim_time': False},
+            apriltag_config
+        ],
         remappings=[
-            ('image', '/spot_image_server/rgb/hand_rgb/image'),
+            ('image_rect', '/spot_image_server/rgb/hand_rgb/image'),
             ('camera_info', '/spot_image_server/rgb/hand_rgb/camera_info'),
         ],
-        parameters=[
-            PathJoinSubstitution([
-                FindPackageShare('spot_tennis_demo'),
-                'config',
-                'apriltag_settings.yaml'
-            ])
-        ]
+        emulate_tty=True,
     )
     
     ball_selector = Node(
