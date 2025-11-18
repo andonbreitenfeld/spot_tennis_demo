@@ -45,7 +45,7 @@ class BallSelector(Node):
     def detections_cb(self, msg: DetectionArray):
         # No Detections
         if not msg.detections:
-            self.ball_window.clear()    # clear queue
+            self.ball_window.clear()
             self.pub_detected.publish(Bool(data=False))
             return
 
@@ -60,15 +60,16 @@ class BallSelector(Node):
                 best_det = det
                 best_dist = dist
 
-        pose_robot = PoseStamped()
-        pose_robot.header = msg.header
-        pose_robot.header.frame_id = best_det.bbox3d.frame_id
-        pose_robot.pose = best_det.bbox3d.center
+        # Ball Pose in Camera Frame
+        pose_camera = PoseStamped()
+        pose_camera.header = msg.header
+        pose_camera.header.frame_id = best_det.bbox3d.frame_id
+        pose_camera.pose = best_det.bbox3d.center
 
-        # Ball Transform: Base Frame -> Map Frame
+        # Ball Transform: Camera Frame -> Map Frame
         try:
             pose_map = self.tf_buffer.transform(
-                pose_robot,
+                pose_camera,
                 self.target_frame,
                 timeout=Duration(seconds=0.1)
             )
@@ -77,7 +78,7 @@ class BallSelector(Node):
             self.ball_window.clear()
             self.pub_detected.publish(Bool(data=False))
             self.get_logger().warn(
-            f"TF Error: Could not transform {pose_robot.header.frame_id} -> {self.target_frame}: {e}"
+                f"TF Error: Could not transform {pose_camera.header.frame_id} -> {self.target_frame}: {e}"
             )
             return
 
@@ -92,7 +93,7 @@ class BallSelector(Node):
         if len(self.ball_window) < self.window_size:
             self.pub_detected.publish(Bool(data=False))
             self.get_logger().warn(
-            f"Not Enough Frames: Only {len(self.ball_window)} frames stored"
+                f"Waiting: Only {len(self.ball_window)} frames stored"
             )
             return
 
@@ -111,7 +112,7 @@ class BallSelector(Node):
         if max_dev > self.stability_threshold:
             self.pub_detected.publish(Bool(data=False))
             self.get_logger().info(
-            f"Stability: Ball moving too much (max_dev={max_dev:.2f} > {self.stability_threshold})"
+                f"Stability: Ball moving too much (max_dev={max_dev:.2f} > {self.stability_threshold})"
             )
             return
 
