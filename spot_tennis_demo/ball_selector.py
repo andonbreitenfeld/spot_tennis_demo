@@ -6,7 +6,7 @@ from rclpy.node import Node
 from rclpy.duration import Duration
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Bool
-from yolo_msgs.msg import DetectionArray # type: ignore
+from yolo_msgs.msg import DetectionArray
 from tf2_ros import Buffer, TransformListener
 import tf2_geometry_msgs
 
@@ -38,7 +38,7 @@ class BallSelector(Node):
 
         self.target_frame = 'spot_nav/map'
 
-        self.window_size = 5   # Last 10 Positions for Stability Check
+        self.window_size = 3    # Last X Positions for Stability Check
         self.stability_threshold = 1   # (1 m)
         self.ball_window = deque(maxlen=self.window_size)
 
@@ -77,7 +77,7 @@ class BallSelector(Node):
             self.ball_window.clear()
             self.pub_detected.publish(Bool(data=False))
             self.get_logger().warn(
-            f"[TF ERROR] Could not transform {pose_robot.header.frame_id} -> {self.target_frame}: {e}"
+            f"TF Error: Could not transform {pose_robot.header.frame_id} -> {self.target_frame}: {e}"
             )
             return
 
@@ -92,7 +92,7 @@ class BallSelector(Node):
         if len(self.ball_window) < self.window_size:
             self.pub_detected.publish(Bool(data=False))
             self.get_logger().warn(
-            f"[FRAME ERROR] Only {len(self.ball_window)} frames stored"
+            f"Not Enough Frames: Only {len(self.ball_window)} frames stored"
             )
             return
 
@@ -111,7 +111,7 @@ class BallSelector(Node):
         if max_dev > self.stability_threshold:
             self.pub_detected.publish(Bool(data=False))
             self.get_logger().info(
-            f"[UNSTABLE] Ball moving too much (max_dev={max_dev:.2f} > {self.stability_threshold})"
+            f"Stability: Ball moving too much (max_dev={max_dev:.2f} > {self.stability_threshold})"
             )
             return
 
