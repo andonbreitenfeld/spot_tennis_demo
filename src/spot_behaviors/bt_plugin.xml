@@ -1,0 +1,6 @@
+<library path="spot_bt_nodes">
+  <class
+      name="BinDetected"
+      type="BinDetected"
+      base_class_type="BT::ConditionNode" />
+</library>

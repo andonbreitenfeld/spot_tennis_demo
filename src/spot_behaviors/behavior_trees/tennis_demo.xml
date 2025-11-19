@@ -1,0 +1,23 @@
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <Sequence name="StartupSequence">
+
+      <!-- POWER ON -->
+      <TriggerService
+          service_name="/spot_driver/power_on"
+          timeout="5.0"
+          empty="false"/>
+
+      <!-- 2. Undock Spot using TriggerService -->
+      <TriggerService
+          service_name="/spot_driver/undock"
+          timeout="5.0"
+          empty="false"/>
+
+      <!-- 3. Next steps (e.g., wait for bin pose, survey loop) go here later -->
+      <!-- <WaitForBinPose/> -->
+      <!-- <Subtree ID="SurveyLoop"/> -->
+
+    </Sequence>
+  </BehaviorTree>
+</root>
