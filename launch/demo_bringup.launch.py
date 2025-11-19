@@ -24,8 +24,10 @@ def generate_launch_description():
                 'config',
                 'demo_cams.yaml',
             ]),
+            'manipulation_action_namespace': 'spot_moveit',
         }.items(),
     )
+
 
     amcl = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
