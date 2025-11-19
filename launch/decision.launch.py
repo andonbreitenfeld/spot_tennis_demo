@@ -23,6 +23,13 @@ def generate_launch_description():
         output='screen',
     )
 
+    ball_nav_target = Node(
+        package='spot_tennis_demo',
+        executable='ball_nav_target',
+        name='ball_nav_target',
+        output='screen',
+    )
+
     nav_manager = Node(
         package='spot_tennis_demo',
         executable='nav_manager',
@@ -40,6 +47,7 @@ def generate_launch_description():
     return LaunchDescription([
         spot_apriltag,
         ball_selector,
+        ball_nav_target,
         nav_manager,
         bin_detector,
     ])

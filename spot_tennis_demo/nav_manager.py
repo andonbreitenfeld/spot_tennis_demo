@@ -58,6 +58,7 @@ class NavManager(Node):
         tq = tf_base_hand.transform.rotation
 
         rel_yaw = self._quat_to_yaw(tq)
+        base_yaw = hand_yaw - rel_yaw # hand_yaw = base_yaw + rel_yaw
 
         # Distance in map frame
         dx_map = tx * math.cos(base_yaw) - ty * math.sin(base_yaw)
@@ -66,12 +67,12 @@ class NavManager(Node):
         # Nav2 Goal Position
         base_x = hand_x - dx_map
         base_y = hand_y - dy_map
-        base_yaw = hand_yaw - rel_yaw # hand_yaw = base_yaw + rel_yaw
 
         return base_x, base_y, base_yaw
 
     def _nav_to_hand_target(self, hand_pose: PoseStamped, response):
         # This takes a goal pose for the hand and computes where the base_link should go for Nav2
+        self.get_logger().info("nav_to_* service called")
         if hand_pose is None:
             response.success = False
             response.message = "No target pose received"
@@ -122,8 +123,8 @@ class NavManager(Node):
             hand_x, hand_y, hand_yaw, tf_base_hand
         )
 
-        base_qz = math.sin(base_yaw / 2)
-        base_qw = math.cos(base_yaw / 2)
+        base_qz = math.sin(base_yaw / 2.0)
+        base_qw = math.cos(base_yaw / 2.0)
 
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = self.target_frame

@@ -13,7 +13,7 @@ class BallNavTarget(Node):
 
         self.map_frame = 'spot_nav/map'
         self.front_frame = 'front_rail'
-        self.standoff = 1.0  # 1 meters
+        self.standoff = 1.0  # 0.5 meters
 
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
@@ -30,6 +30,7 @@ class BallNavTarget(Node):
                 )
             else:
                 ball = ball_pose
+
         except Exception:
             return
 
@@ -47,15 +48,18 @@ class BallNavTarget(Node):
         rail_x = tf.transform.translation.x
         rail_y = tf.transform.translation.y
 
+        # Vector between ball and front rail
         dx = ball_x - rail_x
         dy = ball_y - rail_y
         dist = math.hypot(dx, dy)
+        
         if dist < 1e-3:
             return
 
         ux = dx / dist
         uy = dy / dist
 
+        # Compute goal standoff from ball in that direction
         goal_x = ball_x - ux * self.standoff
         goal_y = ball_y - uy * self.standoff
 
@@ -82,7 +86,6 @@ def main(args=None):
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
