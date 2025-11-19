@@ -3,7 +3,7 @@
   ros__parameters:
     image_transport: raw
     family: 'Standard52h13'
-    size: 0.09
+    size: 0.10
     profile: false
     max_hamming: 2
     publish_tf: true

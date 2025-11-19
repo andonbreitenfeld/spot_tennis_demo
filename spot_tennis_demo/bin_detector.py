@@ -19,7 +19,7 @@ class BinDetector(Node):
         self.tf_broadcaster = TransformBroadcaster(self)
 
         self.target_tag_id = 0          # AprilTag ID for the bin
-        self.standoff = 1.0             # meters in front of tag
+        self.standoff = 1.2             # meters in front of tag
         self.nav_pose_saved = None      # PoseStamped in spot_nav/map
 
         self.sub = self.create_subscription(
