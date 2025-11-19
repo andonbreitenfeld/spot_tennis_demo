@@ -13,7 +13,7 @@ class BallNavTarget(Node):
 
         self.map_frame = 'spot_nav/map'
         self.front_frame = 'front_rail'
-        self.standoff = 1.0  # 0.5 meters
+        self.standoff = 1.0  # 1.0 meters
 
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)

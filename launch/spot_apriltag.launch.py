@@ -16,8 +16,8 @@ def generate_launch_description():
         name='apriltag_node_frontleft',
         output='screen',
         remappings=[
-            ('image_rect', '/spot_image_server/rgb/frontleft/image'),
-            ('camera_info', '/spot_image_server/rgb/frontleft/camera_info'),
+            ('image_rect', '/spot_image_server/rgb/left/image'),
+            ('camera_info', '/spot_image_server/rgb/left/camera_info'),
             ('detections', '/apriltag/detections'),
         ],
         parameters=[config_file]
