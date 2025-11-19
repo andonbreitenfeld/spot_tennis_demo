@@ -1,7 +1,7 @@
-#include "spot_behaviors/bin_detected.hpp"
+#include "spot_behaviors/ball_detected.hpp"
 #include <std_msgs/msg/bool.hpp>
 
-BinDetected::BinDetected(
+BallDetected::BallDetected(
   const std::string& name,
   const BT::NodeConfiguration& config)
 : BT::ConditionNode(name, config)
@@ -15,11 +15,10 @@ BinDetected::BinDetected(
   };
 
   auto sub = node_->create_subscription<std_msgs::msg::Bool>(
-    "/bin_detected", 10, cb);
+    "/ball_detected", 10, cb);
 }
-  
 
-BT::NodeStatus BinDetected::tick()
+BT::NodeStatus BallDetected::tick()
 {
   return detected_ ? BT::NodeStatus::SUCCESS
                    : BT::NodeStatus::FAILURE;

@@ -2,23 +2,20 @@
 <package format="3">
   <name>spot_behaviors</name>
   <version>0.0.1</version>
-  <description>Behavior Tree nodes and executor for the Spot tennis demo.</description>
+  <description>BT Nodes and Executor for Spot Tennis Demo</description>
 
-  <maintainer email="you@todo.com">Luke</maintainer>
-  <license>Apache-2.0</license>
+  <maintainer email="example@example.com">Your Name</maintainer>
+  <license>BSD</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
   <depend>behaviortree_cpp_v3</depend>
-  <depend>pluginlib</depend>
-  <depend>geometry_msgs</depend>
-  <depend>std_srvs</depend>
-  <depend>ament_index_cpp</depend>
   <depend>nav2_behavior_tree</depend>
+  <depend>std_msgs</depend>
 
   <export>
-    <!-- Our custom BT nodes plugin description -->
-    <pluginlib plugin="${prefix}/bt_plugin.xml" />
+    <nav2_behavior_tree plugin="${prefix}/bt_plugin.xml"/>
   </export>
+
 </package>

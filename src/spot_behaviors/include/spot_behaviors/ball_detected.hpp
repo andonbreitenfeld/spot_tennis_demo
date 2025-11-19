@@ -3,10 +3,10 @@
 #include <behaviortree_cpp_v3/condition_node.h>
 #include <rclcpp/rclcpp.hpp>
 
-class BinDetected : public BT::ConditionNode
+class BallDetected : public BT::ConditionNode
 {
 public:
-  BinDetected(const std::string& name, const BT::NodeConfiguration& config);
+  BallDetected(const std::string& name, const BT::NodeConfiguration& config);
 
   BT::NodeStatus tick() override;
 

@@ -1,23 +1,54 @@
 <root main_tree_to_execute="MainTree">
-  <BehaviorTree ID="MainTree">
-    <Sequence name="StartupSequence">
 
-      <!-- POWER ON -->
-      <TriggerService
-          service_name="/spot_driver/power_on"
-          timeout="5.0"
-          empty="false"/>
+  <tree ID="MainTree">
 
-      <!-- 2. Undock Spot using TriggerService -->
-      <TriggerService
-          service_name="/spot_driver/undock"
-          timeout="5.0"
-          empty="false"/>
+    <!-- STARTUP SEQUENCE -->
+    <Sequence name="Startup">
+      <TriggerService service_name="/spot_driver/power_on"/>
+      <TriggerService service_name="/spot_driver/undock"/>
+      <BinDetected/>
+      <SetBlackboard output_key="bin_detected_once" value="true"/>
+    </Sequence>
 
-      <!-- 3. Next steps (e.g., wait for bin pose, survey loop) go here later -->
-      <!-- <WaitForBinPose/> -->
-      <!-- <Subtree ID="SurveyLoop"/> -->
+    <!-- POST-STARTUP GATE -->
+    <Sequence name="PostStartupGate">
+      <EqualTo input="{bin_detected_once}" value="true"/>
+
+      <!-- HIGH-LEVEL BEHAVIOR -->
+      <ReactiveFallback name="TopLevelSelector">
+
+        <!-- ENTER BALL MODE -->
+        <Sequence name="EnterBallMode">
+          <BallDetected/>
+          <SetBlackboard output_key="ball_mode_active" value="true"/>
+        </Sequence>
+
+        <!-- SURVEY ROUTINE -->
+        <Sequence name="SurveyRoutine">
+          <GoalUpdater topic="/survey_goal" output="survey_pose"/>
+          <NavigateToPose goal="{survey_pose}"/>
+          <WaitTime msec="500"/>
+        </Sequence>
+
+      </ReactiveFallback>
+
+      <!-- BALL HANDLING -->
+      <Sequence name="BallHandling">
+
+        <EqualTo input="{ball_mode_active}" value="true"/>
+
+        <WaitTime msec="200"/>
+        <GoalUpdater topic="/ball_goal_pose" output="ball_pose"/>
+        <NavigateToPose goal="{ball_pose}"/>
+
+        <WaitTime msec="200"/>
+        <GoalUpdater topic="/bin_goal_pose" output="bin_pose"/>
+        <NavigateToPose goal="{bin_pose}"/>
+
+        <SetBlackboard output_key="ball_mode_active" value="false"/>
+      </Sequence>
 
     </Sequence>
-  </BehaviorTree>
+
+  </tree>
 </root>

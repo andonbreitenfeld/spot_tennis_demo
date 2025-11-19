@@ -1,6 +1,11 @@
 <library path="spot_bt_nodes">
-  <class
-      name="BinDetected"
-      type="BinDetected"
-      base_class_type="BT::ConditionNode" />
+
+  <class name="BinDetected"
+         type="BinDetected"
+         base_class_type="BT::ConditionNode"/>
+
+  <class name="BallDetected"
+         type="BallDetected"
+         base_class_type="BT::ConditionNode"/>
+
 </library>
