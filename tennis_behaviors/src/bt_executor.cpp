@@ -17,15 +17,7 @@ int main(int argc, char ** argv)
 
     BT::BehaviorTreeFactory factory;
 
-    // Load Nav2 Behavior Tree node plugins
-    {
-        std::string nav2_prefix =
-            ament_index_cpp::get_package_prefix("nav2_behavior_tree");
-        std::string nav2_plugin = nav2_prefix + "/lib/libnav2_behavior_tree_nodes.so";
-        factory.registerFromPlugin(nav2_plugin);
-    }
-
-    // Load your BT plugin library
+    // Load YOUR plugin library only
     {
         std::string pkg_prefix =
             ament_index_cpp::get_package_prefix("tennis_behaviors");
