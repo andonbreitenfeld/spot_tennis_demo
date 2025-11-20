@@ -90,7 +90,7 @@ class NavManager(Node):
 
         except:
             res.success = False
-            res.message = "TF hand→map failed"
+            res.message = "TF hand to map failed"
             return res
         
         try:
@@ -100,7 +100,7 @@ class NavManager(Node):
 
         except:
             res.success = False
-            res.message = "TF base→hand failed"
+            res.message = "TF base to hand failed"
             return res
 
         # Calculate Base Goal Pose (in map frame)
