@@ -45,6 +45,7 @@ class NavManager(Node):
         return self._go(self.bin, res)
 
     def _msg_to_mat(self, msg):
+        # Put Poses or Transforms into Matrix Form
         if isinstance(msg, PoseStamped):
             t = msg.pose.position
             q = msg.pose.orientation
@@ -56,6 +57,7 @@ class NavManager(Node):
             angles=tf_transformations.euler_from_quaternion([q.x, q.y, q.z, q.w])
         )
     def _mat_to_pose(self, M, frame):
+        # Matrix to Pose
         p = PoseStamped()
         p.header.frame_id = frame
         tr = tf_transformations.translation_from_matrix(M)
@@ -100,12 +102,14 @@ class NavManager(Node):
             res.success = False
             res.message = "TF base→hand failed"
             return res
-        
+
+        # Calculate Base Goal Pose (in map frame)
         M_map_hand = self._msg_to_mat(hand)
         M_base_hand = self._msg_to_mat(tf_base_hand)
         M_map_base = M_map_hand @ tf_transformations.inverse_matrix(M_base_hand)
         base_goal = self._mat_to_pose(M_map_base, self.target_frame)
 
+        # Send Nav2 Goal
         goal = NavigateToPose.Goal()
         goal.pose = base_goal
         self.nav.send_goal_async(goal)
