@@ -44,10 +44,30 @@ def generate_launch_description():
         output='screen',
     )
 
+    # =======================================================
+    # NEW: Behavior Tree EXECUTOR (this starts your BT)
+    # =======================================================
+    bt_executor = Node(
+        package='tennis_behaviors',       # <-- your BT C++ package
+        executable='bt_executor',         # <-- the compiled C++ executable
+        name='bt_executor',
+        output='screen',
+        parameters=[
+            {
+                "bt_xml_path": PathJoinSubstitution([
+                    FindPackageShare('tennis_behaviors'),
+                    'behavior_trees',
+                    'tennis_demo.xml'
+                ])
+            }
+        ]
+    )
+
     return LaunchDescription([
         spot_apriltag,
         ball_selector,
         ball_nav_target,
         nav_manager,
         bin_detector,
+        bt_executor,     # <-- This is the missing piece!
     ])

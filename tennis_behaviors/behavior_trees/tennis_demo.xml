@@ -1,0 +1,52 @@
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+
+  <BehaviorTree ID="MainTree">
+
+    <Sequence name="RootSequence">
+
+      <ReactiveFallback name="StartupGate">
+
+        <!-- Check if startup_done already true -->
+        <CheckStartupDone/>
+
+        <Sequence name="StartupSequence">
+          <TriggerService service_name="/spot_driver/power_on" timeout="3.0"/>
+          <TriggerService service_name="/spot_driver/undock" timeout="5.0"/>
+          <SetBlackboard output_key="startup_done" value="true"/>
+        </Sequence>
+
+      </ReactiveFallback>
+
+      <RetryUntilSuccessful>
+        <BinDetected/>
+      </RetryUntilSuccessful>
+
+      <ReactiveFallback name="SurveyOrDetect">
+
+        <Sequence name="EnterBallMode">
+          <BallDetected/>
+          <SetBlackboard output_key="ball_mode_active" value="true"/>
+        </Sequence>
+
+        <Sequence name="SurveyRoutine">
+          <ReceivePose topic="/survey_goal" output_key="survey_pose"/>
+          <NavigateToPose goal="{survey_pose}"/>
+          <WaitTime msec="500"/>
+        </Sequence>
+
+      </ReactiveFallback>
+
+      <Sequence name="BallRoutine">
+        <CheckBallModeActive/>
+
+        <ReceivePose topic="/ball_nav_pose" output_key="ball_target"/>
+        <NavigateToPose goal="{ball_target}"/>
+
+        <SetBlackboard output_key="ball_mode_active" value="false"/>
+        <WaitTime msec="500"/>
+      </Sequence>
+
+    </Sequence>
+  </BehaviorTree>
+
+</root>

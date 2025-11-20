@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<library path="libtennis_bt_nodes">
+
+  <class
+      type="BallDetected"
+      base_class_type="BT::ConditionNode">
+    <description>Returns SUCCESS when /ball_detected is true</description>
+  </class>
+
+  <class
+      type="BinDetected"
+      base_class_type="BT::ConditionNode">
+    <description>Returns SUCCESS when /bin_detected is true</description>
+  </class>
+
+  <class
+      type="CheckStartupDone"
+      base_class_type="BT::ConditionNode">
+    <description>Checks blackboard key startup_done == true</description>
+  </class>
+
+  <class
+      type="CheckBallModeActive"
+      base_class_type="BT::ConditionNode">
+    <description>Checks blackboard key ball_mode_active == true</description>
+  </class>
+
+</library>

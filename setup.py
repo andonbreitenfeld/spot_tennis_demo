@@ -29,6 +29,7 @@ setup(
             'bin_detector = spot_tennis_demo.bin_detector:main',
             'nav_manager = spot_tennis_demo.nav_manager:main',
             'bt_executor   = spot_tennis_demo.bt_executor:main',
+            'survey_publisher = spot_tennis_demo.survey_publisher:main',
         ],
     },
 )
