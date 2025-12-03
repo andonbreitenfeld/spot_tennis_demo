@@ -28,7 +28,6 @@ def generate_launch_description():
         }.items(),
     )
 
-
     amcl = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([

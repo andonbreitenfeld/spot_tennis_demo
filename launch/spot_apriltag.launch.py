@@ -10,10 +10,10 @@ def generate_launch_description():
         'spot_apriltag.yaml'
     ])
     
-    apriltag_frontleft = Node(
+    apriltag_left = Node(
         package='apriltag_ros',
         executable='apriltag_node',
-        name='apriltag_node_frontleft',
+        name='apriltag_node_left',
         output='screen',
         remappings=[
             ('image_rect', '/spot_image_server/rgb/left/image'),
@@ -23,4 +23,4 @@ def generate_launch_description():
         parameters=[config_file]
     )
     
-    return LaunchDescription([apriltag_frontleft])
+    return LaunchDescription([apriltag_left])
