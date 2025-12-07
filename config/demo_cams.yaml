@@ -8,14 +8,14 @@ spot_image_server:
         rgb: 10.0
         depth: 10.0
       left:
-        rgb: 10.0
-        depth: 10.0
+        rgb: 0.0
+        depth: 0.0
       right:
-        rgb: 10.0
-        depth: 10.0
+        rgb: 0.0
+        depth: 0.0
       back:
-        rgb: 10.0
-        depth: 10.0
+        rgb: 0.0
+        depth: 0.0
       hand_rgb:
         rgb: 10.0
         depth: 10.0
