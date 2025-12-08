@@ -1,6 +1,6 @@
 # Spot Tennis Demo
 
-Perception, localization, and launch configuration package for autonomous tennis ball collection and disposal using Boston Dynamics Spot robot.
+Perception, localization, and launch configuration package for autonomous tennis ball collection using Boston Dynamics Spot robot.
 
 ## Overview
 
@@ -23,7 +23,7 @@ This package provides the **perception pipeline and system bringup** for the "Go
 ### Custom Nodes
 
 #### `ball_selector`
-Filters YOLO 3D detections and publishes stable, temporally-averaged ball poses in map frame after stability checks.
+Filters YOLO 3D detections and publishes stable ball poses in map frame after stability checks.
 
 ## Dependencies
 
