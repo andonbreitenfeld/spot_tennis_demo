@@ -25,6 +25,7 @@ def generate_launch_description():
                 'demo_cams.yaml',
             ]),
             'manipulation_action_namespace': 'spot_moveit',
+            'obstacle_avoidance_padding': '0.03',
         }.items(),
     )
 
