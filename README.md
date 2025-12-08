@@ -1,53 +1,88 @@
-# Tennis Demo Behaviorized
+# Spot Tennis Demo
 
-ROS 2 behavior tree package for autonomous tennis ball collection and disposal using Boston Dynamics Spot robot.
+Perception, localization, and launch configuration package for the "Go Fetch!" autonomous tennis ball collection demonstration.
 
 ## Overview
 
-This package implements the **navigation and manipulation logic** for the "Go Fetch" demonstration, where Spot autonomously detects, approaches, and retrieves tennis balls to deposit them in a designated bin. The behavior tree coordinates waypoint navigation, ball detection monitoring, approach goal computation, and manipulation sequences.
+This package provides the **perception pipeline and system bringup** for the Go Fetch demo. It handles YOLO-based tennis ball detection, ball position filtering, AprilTag bin localization, and robot initialization.
 
-**Note:** This is the **core behavior package only**. Driver launch files, YOLO detection, and sensor filtering are provided in separate repositories. Both repositories will be integrated as submodules in a parent meta-package.
+**Note:** This is the **perception and launch package only**. Behavior tree logic for navigation and manipulation is provided in the `tennis_demo_behaviorized` repository. Both repositories are integrated as submodules in the `go_fetch_ws` meta-package.
 
 ## Architecture
 
-### Behavior Tree Structure
-- **MainTree**: Orchestrates startup, ball detection monitoring, and fetch/patrol modes
-- **StartupSequence**: Initializes robot (claim, power on, undock) and locates bin
-- **FetchBall**: Computes ball approach goal, navigates to ball, executes grasp, returns to bin and drops ball
-- **Patrol**: Cycles between waypoints while scanning for balls
-- **Spin**: Performs 360° rotation for environmental scanning
+### Perception Pipeline
+- **YOLO Detection**: Custom-trained YOLOv8 segmentation model running in Docker for tennis ball detection
+- **Ball Selector**: Filters raw detections using temporal averaging and stability checks
+- **AprilTag Detection**: Localizes the collection bin via AprilTag markers
 
-### Custom Behavior Nodes
+### System Bringup
+- **Spot Driver**: Initializes robot (claim, power on, cameras, control interfaces)
+- **AMCL Localization**: Loads pre-built map for autonomous navigation
+- **Camera Configuration**: Optimized streaming rates for perception
 
-#### `ComputeBallApproachGoal`
-Computes an approach pose positioned behind the ball at a specified standoff distance, oriented toward the ball.
+## Nodes
 
-#### `ComputeBinApproachGoal`
-Computes an approach pose in front of the bin (AprilTag), accounting for tag orientation.
+### `ball_selector`
 
-#### `RotatePoseYaw`
-Applies a yaw rotation (in degrees) to a pose while preserving position and roll/pitch.
+Filters YOLO detections and publishes stable ball poses.
 
-#### `LookupTF`
-Queries a TF transform and outputs it as a `PoseStamped` (edited version adapted from chair_manipulation package in UTNuclearRobotics)
+**Logic:**
+- Selects closest ball from detections
+- Maintains sliding window (3 frames) of positions
+- Publishes only when position deviation < 1.0m
+
+## Launch Files
+
+### `demo_bringup.launch.py`
+Launches Spot drivers and AMCL localization with pre-built map.
+
+### `perception.launch.py`
+Launches AprilTag detection and ball selector node.
+
+### `spot_apriltag.launch.py`
+Configures AprilTag detector for bin localization.
+
+## Docker
+
+YOLO detection runs in a containerized environment with GPU support.
+
+**Model:** Custom YOLOv8 segmentation trained exclusively on tennis balls
+**Input:** Hand RGB-D camera stream
+**Output:** 3D ball detections at `/yolo/detections_3d`
 
 ## Dependencies
 
 ### ROS 2 Packages
-- `rclcpp`
-- `behaviortree_cpp`
-- `tf2_ros`, `tf2_geometry_msgs`
+- `rclpy`
+- `tf2_ros`
 - `geometry_msgs`, `std_msgs`
-- `ament_index_cpp`
-- `yaml-cpp`
+- `yolo_msgs`
+- `spot_ros`
+- `yolo_bringup`
+- `spot_navigation`
 
-**System Requirements:**
-- Spot driver running (claim, power on, undock handled by behavior tree)
-- YOLO detection node publishing to `/yolo/detections_3d`
-- Ball filtering node publishing to `/ball_stable_pose`
-- AprilTag detection publishing `bin_tag_link` TF frame
+## Running
 
-## Integration Notes
+These commands are part of the full system launch sequence documented in `go_fetch_ws`.
 
-This package is designed to be used as a **submodule** in a larger meta-repository:
-- **Meta-Repository**: https://github.com/andonbreitenfeld/go_fetch_ws
+### Terminal 1: Spot Drivers & Localization
+```bash
+ros2 launch spot_tennis_demo demo_bringup.launch.py
+```
+
+### Terminal 3: YOLO Detection
+```bash
+cd docker
+docker compose up yolo
+```
+
+### Terminal 4: Perception Pipeline
+```bash
+ros2 launch spot_tennis_demo perception.launch.py
+```
+
+**Prerequisites:**
+- ROS 2 Humble
+- NVIDIA GPU with Docker runtime
+- Spot robot with Arm + RL Kit accessories
+- Pre-built map of environment
