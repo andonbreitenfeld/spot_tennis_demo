@@ -3,14 +3,14 @@
   ros__parameters:
     image_transport: raw
     family: 'Standard52h13'
-    size: 0.09
+    size: 0.055
     profile: false
-    max_hamming: 2
+    max_hamming: 1
     publish_tf: true
     detector:
       threads: 4
       decimate: 2.0
-      blur: 0.0
+      blur: 0.4
       refine: true
       sharpening: 0.25
       debug: false

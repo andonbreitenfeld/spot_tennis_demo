@@ -12,7 +12,7 @@ def generate_launch_description():
     ])
 
     # All available cameras
-    camera_names = ['frontleft', 'frontright']
+    camera_names = ['frontleft', 'frontright', 'hang_rgb']
     topic_prefix = '/spot_image_server/rgb/'
 
     nodes = []
