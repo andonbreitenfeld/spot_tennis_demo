@@ -72,4 +72,4 @@ MIT
 
 ## Author
 
-- Andon Breitenfeld (andonbreitenfeld@utexas.edu)
+- Andon Breitenfeld
