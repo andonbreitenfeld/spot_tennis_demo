@@ -22,8 +22,7 @@ This package provides the **perception pipeline and system bringup** for the Go 
 
 ## Nodes
 
-### `ball_selector`
-
+**ball_selector**
 Filters YOLO detections and publishes stable ball poses.
 
 **Logic:**
