@@ -40,7 +40,7 @@ def generate_launch_description():
             'map': PathJoinSubstitution([
                 FindPackageShare('spot_tennis_demo'),
                 'maps',
-                'ahg_ars_elm.yaml',
+                'ahg_ars_elmv2.yaml',
             ]),
         }.items(),
     )
