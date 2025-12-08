@@ -41,21 +41,6 @@ Filters YOLO 3D detections and publishes stable ball poses in map frame after st
 - NVIDIA GPU with Docker runtime
 - Boston Dynamics Spot robot with Arm and RL Kit accessories
 
-## Running
-
-```bash
-ros2 launch spot_tennis_demo demo_bringup.launch.py
-```
-
-```bash
-cd docker
-docker compose up yolo
-```
-
-```bash
-ros2 launch spot_tennis_demo perception.launch.py
-```
-
 **Prerequisites:**
 - Pre-built map of environment
 - AprilTag-marked bin visible to cameras
